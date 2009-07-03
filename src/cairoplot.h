@@ -15,29 +15,30 @@
  */
 
 #include <cairo.h>
- 
+
+enum {HORZ=0, VERT=1};
+
+typedef struct _color color;
+struct _color {
+	float   r;
+	float   g;
+	float   b;
+	float   a;
+}
+
 typedef struct _plot plot;
 
-
- struct _plot {
-	
- self.create_surface(surface, width, height)
-        self.dimensions = {}
-        self.dimensions[HORZ] = width
-        self.dimensions[VERT] = height
-        self.context = cairo.Context(self.surface)
-        self.labels={}
-        self.labels[HORZ] = x_labels
-        self.labels[VERT] = y_labels
-        self.load_series(data, x_labels, y_labels, series_colors)
-        self.font_size = 10
-        self.set_background (background)
-        self.border = border
-        self.borders = {}
-        self.line_color = (0.5, 0.5, 0.5)
-        self.line_width = 0.5
-        self.label_color = (0.0, 0.0, 0.0)
-        self.grid_color = (0.8, 0.8, 0.8)
- 
- 
- }
+struct _plot {
+	cairo_surface_t *surface;
+	int		dimensions[2];
+	cairo_t *cairoContext;
+	char	*labels[2];
+	int		fontsize;
+	color   background;
+	int		border;
+	int		*borders;
+    color   line_color = {0.5, 0.5, 0.5, 0.0};
+    float   line_width = 0.5;
+    color   label_color = {0.0, 0.0, 0.0, 0.0};
+    color   grid_color = {0.8, 0.8, 0.8, 0.0};
+}

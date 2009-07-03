@@ -20,7 +20,7 @@ AM_PROG_LIBTOOL
 
 
 
-PKG_CHECK_MODULES(libcairoplot, cairo)
+PKG_CHECK_MODULES(libcairoplot, cairo glib-2.0)
 AC_SUBST(libcairoplot_CFLAGS)
 AC_SUBST(libcairoplot_LIBS)
 

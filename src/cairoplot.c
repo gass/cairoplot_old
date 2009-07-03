@@ -17,9 +17,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-int main()
-{
-	printf("Hello world\n");
-	return (0);
+#include <glib.h>
+
+plot *plot_new(void) {
+	plot *p;
+	plot = gmalloc(sizeof(plot);
 }
