@@ -12,7 +12,8 @@ AM_CFLAGS =\
 bin_PROGRAMS = cairoplot
 
 cairoplot_SOURCES = \
-	main.c
+	main.c     \
+	src/cairoplot.c
 
 cairoplot_LDFLAGS = 
 
