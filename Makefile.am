@@ -9,13 +9,10 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-bin_PROGRAMS = cairoplot
+lib_LTLIBRARIES = \
+	libcairoplot.la
 
-cairoplot_SOURCES = \
-	main.c     \
-	src/cairoplot.c
-
-cairoplot_LDFLAGS = 
-
-cairoplot_LDADD = 
+libcairoplot_la_SOURCES = \
+	src/cairoplot.c  \
+	src/cairoplot.h
 
