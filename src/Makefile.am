@@ -9,7 +9,7 @@ libcairoplot_la_CFLAGS = $(GLIB_CFLAGS) \
 						$(CAIRO_CFLAGS) \
 						-I./
 
-libcairoplot_la_LADD = $(GLIB_LIBS) \
+libcairoplot_la_LIBADD = $(GLIB_LIBS) \
 						$(CAIRO_LIBS)
 
 lib_LTLIBRARIES = \
@@ -27,7 +27,7 @@ unit_test_CFLAGS = $(GLIB_CFLAGS) \
 					$(GTK_CFLAGS) \
 					-I./
 
-unit_test_LADD = $(GLIB_LIBS) \
+unit_test_LDADD = $(GLIB_LIBS) \
 				 $(CAIRO_LIBS) \
 				 $(GTK_LIBS)
 

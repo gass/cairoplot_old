@@ -73,8 +73,6 @@ static gboolean
 on_expose_event(GtkWidget * widget, GdkEventExpose * event, plot * p)
 {
 	p->cairoContext = gdk_cairo_create(widget->window);
-	plot_set_background(p);
-	plot_set_border(p);
-	plot_set_finnish(p);
+	plot_render_all(p);
 	return FALSE;
 }

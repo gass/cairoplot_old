@@ -76,9 +76,7 @@ plot *plot_init() {
 	p->line_width = 0.5;
     p->label_color = black;
 	p->grid_color = grid_color;
-	
-	plot_set_border (p);
-	
+
 	return p;
 }
 
@@ -145,7 +143,7 @@ void plot_render_all (plot *p) {
 		return;
 	}
 	plot_render_background (p);
-	plot_render_border(p);
+	plot_render_bounding_box(p);
 	
 	
 	/* closing the render */
