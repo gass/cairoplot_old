@@ -131,7 +131,7 @@ void plot_render_background (plot *p) {
 }
 
 /** finnish the rendering */
-void plot_render_finnish (plot *p) {
+void plot_render_commit (plot *p) {
 	if (!p->cairoContext) {
 		return;
 	}

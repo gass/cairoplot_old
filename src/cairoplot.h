@@ -56,7 +56,7 @@ void plot_set_cairo_context(plot *p, cairo_t *ct);
 /* the render group */
 void plot_render_bounding_box (plot *p);
 void plot_render_background (plot *p);
-void plot_render_finnish (plot *p);
+void plot_render_commit (plot *p);
 void plot_render_all (plot *p);
 
 #endif
