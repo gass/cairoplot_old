@@ -41,7 +41,8 @@ struct _plot {
 	void	*data[2];
 	char	*labels[2];
 	int		fontsize;
-	color   background;
+	int		n_background_colors;
+	color   *background;
 	int	border;
 	int		*borders;
     color   line_color;
@@ -51,6 +52,8 @@ struct _plot {
 };
 /* object settings */
 plot *plot_init();
+void plot_set_background_color(plot *p, const color *background_color);
+void plot_set_background_color_theme (plot *p, int n_colors, ...);
 void plot_set_cairo_context(plot *p, cairo_t *ct);
 
 /* the render group */

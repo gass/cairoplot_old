@@ -19,11 +19,13 @@
 
 #include <glib.h>
 #include <cairo.h>
+#include <string.h>
+#include <stdarg.h>
 #include "cairoplot.h"
 
 /* how to solve this problem? */
 /* standard colors */
-color	red			= {1.0,0.0,0.0,1.0},
+color	red		= {1.0,0.0,0.0,1.0},
 		lime    	= {0.0,1.0,0.0,1.0},
 		blue		= {0.0,0.0,1.0,1.0},
 		maroon		= {0.5,0.0,0.0,1.0},
@@ -69,7 +71,7 @@ plot *plot_init() {
 
 	/* style */
 	p->fontsize = 10;
-	p->background =  white;
+	plot_set_background_color (p, &white);
 	p->border = 3;
 	p->borders = NULL;
     p->line_color = black;
@@ -78,6 +80,36 @@ plot *plot_init() {
 	p->grid_color = grid_color;
 
 	return p;
+}
+
+/** Changes the background color of a plot */
+void plot_set_background_color (plot *p, const color *background_color) {
+	/* the background color is always greater than zero */
+	if (p->n_background_colors > 0)
+		g_free(p->background);
+	p->n_background_colors = 1;
+	p->background = g_malloc(sizeof(color));
+	g_memmove (p->background, background_color, sizeof(color));
+}
+
+/** changes the background color for a color gradient */
+void plot_set_background_color_theme (plot *p, int n_colors, ...){
+	color *c;
+	int i;
+	va_list colors;
+	
+	/* free previous colors */
+	g_free (p->background);
+	p->background = g_malloc(n_colors*sizeof(color));
+
+	/* create the color array */
+	va_start (colors, n_colors);
+	for (i=0; i<n_colors; i++) {
+		c = va_arg (colors, color *);
+		g_memmove (&p->background[i], c, sizeof(color));
+	}
+	p->n_background_colors = i;
+	va_end (colors);
 }
 
 /** Add a cairo context to the plot object */
@@ -115,10 +147,10 @@ void plot_render_background (plot *p) {
 		return;
 	}
 	cairo_set_source_rgba (p->cairoContext,
-						   p->background.r,
-						   p->background.g,
-						   p->background.b,
-						   p->background.a);
+						   p->background->r,
+						   p->background->g,
+						   p->background->b,
+						   p->background->a);
 	cairo_set_line_width (p->cairoContext,
 						  p->line_width);
 	
