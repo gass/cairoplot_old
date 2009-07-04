@@ -1,6 +1,3 @@
-dnl Process this file with autoconf to produce a configure script.
-dnl Created by Anjuta application wizard.
-
 AC_INIT(cairoplot, 2.0)
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
@@ -10,6 +7,7 @@ AM_MAINTAINER_MODE
 AC_ISC_POSIX
 AC_PROG_CC
 AM_PROG_CC_STDC
+AM_PROG_CC_C_O
 AC_HEADER_STDC
 
 
@@ -22,9 +20,10 @@ AM_PROG_LIBTOOL
 
 PKG_CHECK_MODULES(CAIRO, cairo)
 PKG_CHECK_MODULES(GLIB, glib-2.0)
+PKG_CHECK_MODULES(GTK, gtk+-2.0 )
 
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
-])
+        ])
 AC_OUTPUT
