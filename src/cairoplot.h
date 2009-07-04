@@ -14,6 +14,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301,  USA
  */
 
+#ifndef __CAIROPLOT_H__
+#define __CAIRO_PLOT_H__
 #include <cairo.h>
 
 enum {HORZ=0, VERT=1};
@@ -24,7 +26,7 @@ struct _color {
 	float   g;
 	float   b;
 	float   a;
-}
+};
 
 typedef struct _plot plot;
 
@@ -37,8 +39,9 @@ struct _plot {
 	color   background;
 	int		border;
 	int		*borders;
-    color   line_color = {0.5, 0.5, 0.5, 0.0};
-    float   line_width = 0.5;
-    color   label_color = {0.0, 0.0, 0.0, 0.0};
-    color   grid_color = {0.8, 0.8, 0.8, 0.0};
-}
+    color   line_color;
+    float   line_width;
+    color   label_color;
+    color   grid_color;
+};
+#endif

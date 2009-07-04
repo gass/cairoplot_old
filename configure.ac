@@ -20,14 +20,11 @@ AM_PROG_LIBTOOL
 
 
 
-PKG_CHECK_MODULES(libcairoplot, cairo glib-2.0)
-AC_SUBST(libcairoplot_CFLAGS)
-AC_SUBST(libcairoplot_LIBS)
+PKG_CHECK_MODULES(CAIRO, cairo)
+PKG_CHECK_MODULES(GLIB, glib-2.0)
 
-PKG_CHECK_MODULES(Introduza um novo m&#xF3;dulo, cairo)
-AC_SUBST(Introduza um novo m&#xF3;dulo_CFLAGS)
-AC_SUBST(Introduza um novo m&#xF3;dulo_LIBS)
-
-AC_OUTPUT([
-Makefile
+AC_CONFIG_FILES([
+	Makefile
+	src/Makefile
 ])
+AC_OUTPUT

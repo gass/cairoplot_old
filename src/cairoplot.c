@@ -18,8 +18,10 @@
  */
 
 #include <glib.h>
+#include "cairoplot.h"
 
 plot *plot_new(void) {
 	plot *p;
-	plot = gmalloc(sizeof(plot);
+	p = g_malloc(sizeof(plot));
+	return p;			   
 }
