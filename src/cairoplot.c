@@ -149,6 +149,6 @@ void plot_render_all (plot *p) {
 	
 	
 	/* closing the render */
-	plot_render_finnish(p);
+	plot_render_commit(p);
 	
 }
