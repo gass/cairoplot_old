@@ -84,6 +84,8 @@ plot *plot_init() {
 void plot_set_cairo_context(plot *p, cairo_t *ct) {
 	p->cairoContext = ct;
 	p->surface = cairo_get_target (p->cairoContext);
+	p->dimensions[HORZ] = cairo_image_surface_get_width (p->surface);
+	p->dimensions[VERT] = cairo_image_surface_get_height (p->surface);
 }
 
 /** renders the border for the plot */
