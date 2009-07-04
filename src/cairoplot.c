@@ -167,8 +167,7 @@ void plot_render_commit (plot *p) {
 	if (!p->cairoContext) {
 		return;
 	}
-	cairo_show_page (p->cairoContext);
-	cairo_surface_finish (p->surface);	
+	cairo_show_page (p->cairoContext);	
 }
 
 /** renders all elements of the plot */
