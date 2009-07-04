@@ -82,6 +82,12 @@ plot *plot_init() {
 	return p;
 }
 
+/** frees the plot's memory */
+void plot_destroy (plot *p) {
+	g_free (p->background);
+	g_free (p);	
+}
+
 /** Changes the background color of a plot */
 void plot_set_background_color (plot *p, const color *background_color) {
 	/* the background color is always greater than zero */

@@ -52,6 +52,7 @@ struct _plot {
 };
 /* object settings */
 plot *plot_init();
+void plot_destroy (plot *p);
 void plot_set_background_color(plot *p, const color *background_color);
 void plot_set_background_color_theme (plot *p, int n_colors, ...);
 void plot_set_cairo_context(plot *p, cairo_t *ct);
