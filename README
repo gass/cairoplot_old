@@ -1,0 +1,32 @@
+This an implementation of cairo plot [0] from python to C.
+It provides a library, libcairoplot, that generates cairo based plots.
+
+It also have a small unit test, so that we can generate some data and test the 
+plots.
+
+If yo are interested, please drop a comment in cairoplot google groups' list [1].
+
+This is a temporary repository, for the start of the development[2].
+
+[0] https://launchpad.net/cairoplot
+[1] http://groups.google.com/group/cairoplot/
+[2] 
+
+**** COMPILING ***
+..You'll need:
+
+libgtk+-2.0
+libcairo2
+libglib-2.0
+
+
+..just do:
+
+
+autoreconf -i -f
+
+./configure
+
+make
+
+Luis Matos
