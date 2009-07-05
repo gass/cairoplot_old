@@ -32,9 +32,9 @@ struct _color {
 	float   a;
 };
 
-typedef struct _plot plot;
+typedef struct _Plot Plot;
 
-struct _plot {
+struct _Plot {
 	cairo_surface_t *surface;
 	int		dimensions[2];
 	cairo_t *cairoContext;
@@ -51,16 +51,16 @@ struct _plot {
     color   grid_color;
 };
 /* object settings */
-plot *plot_init();
-void plot_destroy (plot *p);
-void plot_set_background_color(plot *p, const color *background_color);
-void plot_set_background_color_theme (plot *p, int n_colors, ...);
-void plot_set_cairo_context(plot *p, cairo_t *ct);
+Plot *plot_init();
+void plot_destroy (Plot *p);
+void plot_set_background_color(Plot *p, const color *background_color);
+void plot_set_background_color_theme (Plot *p, int n_colors, ...);
+void plot_set_cairo_context(Plot *p, cairo_t *ct);
 
 /* the render group */
-void plot_render_bounding_box (plot *p);
-void plot_render_background (plot *p);
-void plot_render_commit (plot *p);
-void plot_render_all (plot *p);
+void plot_render_bounding_box (Plot *p);
+void plot_render_background (Plot *p);
+void plot_render_commit (Plot *p);
+void plot_render_all (Plot *p);
 
 #endif

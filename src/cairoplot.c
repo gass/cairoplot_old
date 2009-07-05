@@ -42,18 +42,18 @@ color	red		= {1.0,0.0,0.0,1.0},
 		transparent	= {0.0,0.0,0.0,0.0};
 
 
-static void plot_render_gradient_background (plot *p);
-static void plot_render_one_color_background (plot *p);
+static void plot_render_gradient_background (Plot *p);
+static void plot_render_one_color_background (Plot *p);
 
 /** Initialize the plot object.
  This starts the plot object without a cairo reference.
 */
-plot *plot_init() {
-	plot *p;
+Plot *plot_init() {
+	Plot *p;
 	/* just to make a point */
 	color grid_color = {0.8, 0.8, 0.8, 1.0};
 	
-	p = g_malloc(sizeof(plot));
+	p = g_malloc(sizeof(Plot));
 	
 	/* initialize the object with default values */
 	/* cairo surface */
@@ -86,13 +86,13 @@ plot *plot_init() {
 }
 
 /** frees the plot's memory */
-void plot_destroy (plot *p) {
+void plot_destroy (Plot *p) {
 	g_free (p->background);
 	g_free (p);	
 }
 
-/** Changes the background color of a plot */
-void plot_set_background_color (plot *p, const color *background_color) {
+/** Changes the background color of a Plot */
+void plot_set_background_color (Plot *p, const color *background_color) {
 	/* the background color is always greater than zero */
 	if (p->n_background_colors > 0)
 		g_free(p->background);
@@ -102,7 +102,7 @@ void plot_set_background_color (plot *p, const color *background_color) {
 }
 
 /** changes the background color for a color gradient */
-void plot_set_background_color_theme (plot *p, int n_colors, ...){
+void plot_set_background_color_theme (Plot *p, int n_colors, ...){
 	color *c;
 	int i;
 	va_list colors;
@@ -122,15 +122,15 @@ void plot_set_background_color_theme (plot *p, int n_colors, ...){
 }
 
 /** Add a cairo context to the plot object */
-void plot_set_cairo_context(plot *p, cairo_t *ct) {
+void plot_set_cairo_context(Plot *p, cairo_t *ct) {
 	p->cairoContext = ct;
 	p->surface = cairo_get_target (p->cairoContext);
 	p->dimensions[HORZ] = cairo_image_surface_get_width (p->surface);
 	p->dimensions[VERT] = cairo_image_surface_get_height (p->surface);
 }
 
-/** renders the border for the plot */
-void plot_render_bounding_box (plot *p) {
+/** renders the border for the Plot */
+void plot_render_bounding_box (Plot *p) {
 	if (!p->cairoContext) {
 		return;
 	}
@@ -151,7 +151,7 @@ void plot_render_bounding_box (plot *p) {
 }
 
 /** Renders the background with only one color */
-static void plot_render_one_color_background (plot *p) {
+static void plot_render_one_color_background (Plot *p) {
 	cairo_set_source_rgba (p->cairoContext,
 						   p->background->r,
 						   p->background->g,
@@ -160,7 +160,7 @@ static void plot_render_one_color_background (plot *p) {
 }
 
 /** Renders the background as an equal color gradient */
-static void plot_render_gradient_background (plot *p) {
+static void plot_render_gradient_background (Plot *p) {
 	
 	int i;
 	cairo_pattern_t *cp;
@@ -180,7 +180,7 @@ static void plot_render_gradient_background (plot *p) {
 	cairo_set_source (p->cairoContext, cp);
 }
 /** render the plot background */
-void plot_render_background (plot *p) {
+void plot_render_background (Plot *p) {
 	if (!p->cairoContext) {
 		return;
 	}
@@ -198,15 +198,15 @@ void plot_render_background (plot *p) {
 }
 
 /** finnish the rendering */
-void plot_render_commit (plot *p) {
+void plot_render_commit (Plot *p) {
 	if (!p->cairoContext) {
 		return;
 	}
 	cairo_show_page (p->cairoContext);	
 }
 
-/** renders all elements of the plot */
-void plot_render_all (plot *p) {
+/** renders all elements of the Plot */
+void plot_render_all (Plot *p) {
 	if (!p->cairoContext) {
 		return;
 	}
