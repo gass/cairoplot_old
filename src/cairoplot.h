@@ -64,4 +64,6 @@ void plot_render_background (Plot *p);
 void plot_render_commit (Plot *p);
 void plot_render_all (Plot *p);
 
+/* auxiliar functions */
+color *create_color_theme (int n_colors, va_list colors);
 #endif

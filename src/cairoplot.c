@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include "cairoplot.h"
+#include <stdio.h>
 
 /* how to solve this problem? */
 /* standard colors */
@@ -106,19 +107,13 @@ void plot_set_background_color_theme (Plot *p, int n_colors, ...){
 	color *c;
 	int i;
 	va_list colors;
-	
+
 	/* free previous colors */
 	g_free (p->background);
-	p->background = g_malloc(n_colors*sizeof(color));
-
-	/* create the color array */
-	va_start (colors, n_colors);
-	for (i=0; i<n_colors; i++) {
-		c = va_arg (colors, color *);
-		g_memmove (&p->background[i], c, sizeof(color));
-	}
-	p->n_background_colors = i;
-	va_end (colors);
+	va_start(colors, n_colors);
+	p->background = create_color_theme (n_colors, colors);
+	va_end(colors);
+	p->n_background_colors = n_colors;
 }
 
 /** Add a cairo context to the plot object */
@@ -217,4 +212,23 @@ void plot_render_all (Plot *p) {
 	/* closing the render */
 	plot_render_commit(p);
 	
+}
+
+/* auxiliar functions */
+
+/** create a color theme as a color array */
+color *create_color_theme (int n_colors, va_list colors)
+{
+	color *theme, *c;
+	int i;
+	
+	/* create the color array */
+	theme = g_malloc(n_colors*sizeof(color));
+
+	for (i=0; i<n_colors; i++) {
+		c = va_arg (colors, color *);
+		g_memmove (&theme[i], c, sizeof(color));
+	}
+	va_end (colors);
+	return theme;
 }
