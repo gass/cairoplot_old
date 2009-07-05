@@ -70,6 +70,7 @@ void plot_render_commit (Plot *p);
 void plot_render_all (Plot *p);
 
 /* auxiliar functions */
+void color_theme_unset_colors (ColorTheme *ct);
 void create_color_theme (ColorTheme * ct, int n_colors, ...);
 void create_color_theme_aux (ColorTheme * ct, int n_colors, va_list colors);
 #endif

@@ -22,7 +22,6 @@
 #include <string.h>
 #include <stdarg.h>
 #include "cairoplot.h"
-#include <stdio.h>
 
 /* how to solve this problem? */
 /* standard colors */
@@ -45,7 +44,6 @@ color	red		= {1.0,0.0,0.0,1.0},
 
 static void plot_render_gradient_background (Plot *p);
 static void plot_render_one_color_background (Plot *p);
-static void plot_background_theme_destroy (Plot *p);
 
 /** Initialize the plot object.
  This starts the plot object without a cairo reference.
@@ -89,13 +87,13 @@ Plot *plot_init() {
 
 /** frees the plot's memory */
 void plot_destroy (Plot *p) {
-	plot_background_theme_destroy (p);
+	color_theme_unset_colors (&p->background);
 	g_free (p);	
 }
 
 /** Changes the background color of a Plot */
 void plot_set_background_color (Plot *p, const color *background_color) {
-	plot_background_theme_destroy (p);
+	color_theme_unset_colors (&p->background);
 	create_color_theme (&p->background, 1, background_color);
 }
 
@@ -105,7 +103,7 @@ void plot_set_background_color_theme (Plot *p, int n_colors, ...){
 	int i;
 	va_list colors;
 
-	plot_background_theme_destroy (p);
+	color_theme_unset_colors(&p->background);
 	
 	va_start(colors, n_colors);
 	create_color_theme_aux (&p->background, n_colors, colors);
@@ -213,10 +211,12 @@ void plot_render_all (Plot *p) {
 
 /* auxiliar functions */
 
-/** evaluates the background colors information and frees it */
-static void plot_background_theme_destroy (Plot *p) {
-	if (p->background.n_colors >0)
-		g_free(p->background.color_array);
+/** evaluates the number of colors and frees the theme */
+void color_theme_unset_colors (ColorTheme *ct) {
+	if (ct->n_colors >0) {
+		g_free(ct->color_array);
+		ct->n_colors=0;
+	}
 }
 
 /** create a color theme as a color array */
