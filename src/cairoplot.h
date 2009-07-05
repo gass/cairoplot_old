@@ -32,6 +32,12 @@ struct _color {
 	float   a;
 };
 
+typedef struct _ColorTheme ColorTheme;
+struct _ColorTheme {
+	int n_colors;
+	color *color_array;
+};
+
 typedef struct _Plot Plot;
 
 struct _Plot {
@@ -41,8 +47,7 @@ struct _Plot {
 	void	*data[2];
 	char	*labels[2];
 	int		fontsize;
-	int		n_background_colors;
-	color   *background;
+	ColorTheme background;
 	int	border;
 	int		*borders;
     color   line_color;
@@ -65,5 +70,6 @@ void plot_render_commit (Plot *p);
 void plot_render_all (Plot *p);
 
 /* auxiliar functions */
-color *create_color_theme (int n_colors, va_list colors);
+void create_color_theme (ColorTheme * ct, int n_colors, ...);
+void create_color_theme_aux (ColorTheme * ct, int n_colors, va_list colors);
 #endif

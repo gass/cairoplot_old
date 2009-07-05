@@ -96,10 +96,7 @@ void plot_destroy (Plot *p) {
 /** Changes the background color of a Plot */
 void plot_set_background_color (Plot *p, const color *background_color) {
 	plot_background_theme_destroy (p);
-	
-	p->n_background_colors = 1;
-	p->background = g_malloc(sizeof(color));
-	g_memmove (p->background, background_color, sizeof(color));
+	create_color_theme (&p->background, 1, background_color);
 }
 
 /** changes the background color for a color gradient */
@@ -111,9 +108,8 @@ void plot_set_background_color_theme (Plot *p, int n_colors, ...){
 	plot_background_theme_destroy (p);
 	
 	va_start(colors, n_colors);
-	p->background = create_color_theme (n_colors, colors);
+	create_color_theme_aux (&p->background, n_colors, colors);
 	va_end(colors);
-	p->n_background_colors = n_colors;
 }
 
 /** Add a cairo context to the plot object */
@@ -148,10 +144,10 @@ void plot_render_bounding_box (Plot *p) {
 /** Renders the background with only one color */
 static void plot_render_one_color_background (Plot *p) {
 	cairo_set_source_rgba (p->cairoContext,
-						   p->background->r,
-						   p->background->g,
-						   p->background->b,
-						   p->background->a);
+						   p->background.color_array->r,
+						   p->background.color_array->g,
+						   p->background.color_array->b,
+						   p->background.color_array->a);
 }
 
 /** Renders the background as an equal color gradient */
@@ -159,17 +155,18 @@ static void plot_render_gradient_background (Plot *p) {
 	
 	int i;
 	cairo_pattern_t *cp;
+	ColorTheme *ct = &p->background;
 	
 	cp = cairo_pattern_create_linear (p->dimensions[HORZ] / 2, 0,
 									  p->dimensions[HORZ] / 2,
 									  p->dimensions[VERT]);
-	for (i=0; i<p->n_background_colors;i++) {
+	for (i=0; i<ct->n_colors;i++) {
 		cairo_pattern_add_color_stop_rgba   (cp,
 											 i,
-											 p->background[i].r,
-                                             p->background[i].g,
-											 p->background[i].b,
-											 p->background[i].a);
+											 ct->color_array[i].r,
+                                             ct->color_array[i].g,
+											 ct->color_array[i].b,
+											 ct->color_array[i].a);
 		
 	}
 	cairo_set_source (p->cairoContext, cp);
@@ -179,7 +176,7 @@ void plot_render_background (Plot *p) {
 	if (!p->cairoContext) {
 		return;
 	}
-	if (p->n_background_colors >1) {
+	if (p->background.n_colors >1) {
 		plot_render_gradient_background (p);
 	} else {
 		plot_render_one_color_background (p);
@@ -217,25 +214,31 @@ void plot_render_all (Plot *p) {
 /* auxiliar functions */
 
 /** evaluates the background colors information and frees it */
-
 static void plot_background_theme_destroy (Plot *p) {
-	if (p->n_background_colors >0)
-		g_free(p->background);
-	
+	if (p->background.n_colors >0)
+		g_free(p->background.color_array);
 }
+
 /** create a color theme as a color array */
-color *create_color_theme (int n_colors, va_list colors)
+void create_color_theme (ColorTheme * ct, int n_colors, ...) {
+	va_list colors;
+	
+	va_start(colors, n_colors);
+	create_color_theme_aux (ct, n_colors, colors);
+	va_end(colors);
+}
+/** auxiliary function that defines the theme */
+void create_color_theme_aux (ColorTheme * ct, int n_colors, va_list colors)
 {
 	color *theme, *c;
 	int i;
 	
 	/* create the color array */
-	theme = g_malloc(n_colors*sizeof(color));
-
+	ct->color_array = g_malloc(n_colors*sizeof(color));
+	ct->n_colors = n_colors;
 	for (i=0; i<n_colors; i++) {
 		c = va_arg (colors, color *);
-		g_memmove (&theme[i], c, sizeof(color));
+		g_memmove (&ct->color_array[i], c, sizeof(color));
 	}
 	va_end (colors);
-	return theme;
 }
