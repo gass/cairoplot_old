@@ -19,6 +19,7 @@
 
 
 #include <gtk/gtk.h>
+#include <stdlib.h>
 #include "cairoplot.h"
 
 static gboolean on_delete_event(GtkWidget * window,
@@ -32,7 +33,9 @@ int main(int argc, char *argv[])
 {
 	GtkWidget *window, *draw;
 	plot *p = plot_init();
-
+	color	red		= {1.0,0.0,0.0,1.0},
+			lime    = {0.0,1.0,0.0,1.0};
+	plot_set_background_color_theme (p, 2,  &red, &lime);
 	/* Initialize GTK+. */
 	gtk_set_locale();
 	gtk_init(&argc, &argv);

@@ -42,6 +42,9 @@ color	red		= {1.0,0.0,0.0,1.0},
 		transparent	= {0.0,0.0,0.0,0.0};
 
 
+static void plot_render_gradient_background (plot *p);
+static void plot_render_one_color_background (plot *p);
+
 /** Initialize the plot object.
  This starts the plot object without a cairo reference.
 */
@@ -147,19 +150,45 @@ void plot_render_bounding_box (plot *p) {
 	cairo_stroke (p->cairoContext);
 }
 
-/** render the plot background */
-void plot_render_background (plot *p) {
-	if (!p->cairoContext) {
-		return;
-	}
+/** Renders the background with only one color */
+static void plot_render_one_color_background (plot *p) {
 	cairo_set_source_rgba (p->cairoContext,
 						   p->background->r,
 						   p->background->g,
 						   p->background->b,
 						   p->background->a);
-	cairo_set_line_width (p->cairoContext,
-						  p->line_width);
+}
+
+/** Renders the background as an equal color gradient */
+static void plot_render_gradient_background (plot *p) {
 	
+	int i;
+	cairo_pattern_t *cp;
+	
+	cp = cairo_pattern_create_linear (p->dimensions[HORZ] / 2, 0,
+									  p->dimensions[HORZ] / 2,
+									  p->dimensions[VERT]);
+	for (i=0; i<p->n_background_colors;i++) {
+		cairo_pattern_add_color_stop_rgba   (cp,
+											 i,
+											 p->background[i].r,
+                                             p->background[i].g,
+											 p->background[i].b,
+											 p->background[i].a);
+		
+	}
+	cairo_set_source (p->cairoContext, cp);
+}
+/** render the plot background */
+void plot_render_background (plot *p) {
+	if (!p->cairoContext) {
+		return;
+	}
+	if (p->n_background_colors >1) {
+		plot_render_gradient_background (p);
+	} else {
+		plot_render_one_color_background (p);
+	}
 	cairo_rectangle (p->cairoContext,
 					 0,
 					 0,
