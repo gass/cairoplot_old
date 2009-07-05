@@ -49,6 +49,7 @@ struct _Plot {
     float   line_width;
     color   label_color;
     color   grid_color;
+    void	*extend;
 };
 /* object settings */
 Plot *plot_init();
