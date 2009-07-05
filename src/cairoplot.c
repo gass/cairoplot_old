@@ -45,6 +45,7 @@ color	red		= {1.0,0.0,0.0,1.0},
 
 static void plot_render_gradient_background (Plot *p);
 static void plot_render_one_color_background (Plot *p);
+static void plot_background_theme_destroy (Plot *p);
 
 /** Initialize the plot object.
  This starts the plot object without a cairo reference.
@@ -88,15 +89,14 @@ Plot *plot_init() {
 
 /** frees the plot's memory */
 void plot_destroy (Plot *p) {
-	g_free (p->background);
+	plot_background_theme_destroy (p);
 	g_free (p);	
 }
 
 /** Changes the background color of a Plot */
 void plot_set_background_color (Plot *p, const color *background_color) {
-	/* the background color is always greater than zero */
-	if (p->n_background_colors > 0)
-		g_free(p->background);
+	plot_background_theme_destroy (p);
+	
 	p->n_background_colors = 1;
 	p->background = g_malloc(sizeof(color));
 	g_memmove (p->background, background_color, sizeof(color));
@@ -108,8 +108,8 @@ void plot_set_background_color_theme (Plot *p, int n_colors, ...){
 	int i;
 	va_list colors;
 
-	/* free previous colors */
-	g_free (p->background);
+	plot_background_theme_destroy (p);
+	
 	va_start(colors, n_colors);
 	p->background = create_color_theme (n_colors, colors);
 	va_end(colors);
@@ -216,6 +216,13 @@ void plot_render_all (Plot *p) {
 
 /* auxiliar functions */
 
+/** evaluates the background colors information and frees it */
+
+static void plot_background_theme_destroy (Plot *p) {
+	if (p->n_background_colors >0)
+		g_free(p->background);
+	
+}
 /** create a color theme as a color array */
 color *create_color_theme (int n_colors, va_list colors)
 {
