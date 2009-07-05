@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 static gboolean
 on_delete_event(GtkWidget * window, GdkEvent * event, gpointer unused_data)
 {
-	return(0);
+	exit(0);
 }
 
 /* use cairo plot */
