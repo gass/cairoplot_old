@@ -22,7 +22,7 @@
 
 #include <cairo.h>
 
-enum {HORZ=0, VERT=1};
+enum {HORZ=0, VERT, NORM};
 
 typedef struct _color color;
 struct _color {
