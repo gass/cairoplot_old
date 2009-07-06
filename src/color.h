@@ -26,6 +26,9 @@ struct _CpColorTheme {
 		GList *colors;
 		};
 
+void cp_color_free (CpColor *self);
+GType cp_color_get_type (void);
+
 G_END_DECLS
 
 #endif

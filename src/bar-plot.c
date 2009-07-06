@@ -20,7 +20,7 @@ static gpointer cp_bar_plot_parent_class = NULL;
 static void cp_bar_plot_class_init (CpBarPlotClass* klass)
 {
 	cp_bar_plot_parent_class = g_type_class_peek_parent(klass);
-	CP_PLOT_CLASS (klass)->render = cp_bar_plot_real_render;
+	CP_PLOT_CLASS (klass)->render_all = cp_bar_plot_real_render;
 	G_OBJECT_CLASS (klass)->get_property = cp_bar_plot_get_property;
 	G_OBJECT_CLASS (klass)->set_property = cp_bar_plot_set_property;
 	G_OBJECT_CLASS (klass)->finalize = cp_bar_plot_finalize;

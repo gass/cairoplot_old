@@ -53,11 +53,11 @@ static void cp_plot_class_init (CpPlotClass* klass)
 		G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE);
 	g_object_class_install_property(G_OBJECT_CLASS (klass), HEIGHT_PROPERTY, pspec);
 	
-	pspec = g_param_spec_boxed ("background", "background", "background", 0, CP_TYPE_COLOR_THEME,
+	pspec = g_param_spec_boxed ("background", "background", "background", CP_TYPE_COLOR_THEME,
 		G_PARAM_CONSTRUCT | G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE);
 	g_object_class_install_property(G_OBJECT_CLASS (klass), BACKGROUND_PROPERTY, pspec);
 	
-	pspec = g_param_spec_boxed ("border-color", "border-color", "border-color", 0, CP_TYPE_COLOR,
+	pspec = g_param_spec_boxed ("border-color", "border-color", "border-color", CP_TYPE_COLOR,
 		G_PARAM_CONSTRUCT | G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE);
 	g_object_class_install_property(G_OBJECT_CLASS (klass), BACKGROUND_PROPERTY, pspec);
 	
@@ -172,11 +172,11 @@ static void cp_plot_set_property(GObject * object, guint property_id, const GVal
 			break;
 			
 		case BACKGROUND_PROPERTY:
-			 self->background = g_value_boxed(value);
+			 self->background = (CpColorTheme *) g_value_boxed(value);
 			 break;
 			 
 	    case BORDER_COLOR_PROPERTY:
-			 self->border_color = g_value_boxed(value);
+			 self->border_color = (CpColor *) g_value_boxed(value);
 			 break;
 			 
 	    case BORDER_WIDTH_PROPERTY:
@@ -184,11 +184,11 @@ static void cp_plot_set_property(GObject * object, guint property_id, const GVal
 			 break;
 			 
 	    case CAIRO_OBJ_PROPERTY:
-			  self->cairo = g_value_pointer (value);
+			  self->cairo = g_value_get_pointer (value);
 			  break;
 			  
         case SURFACE_OBJ_PROPERTY:
-			 self->surface = g_value_pointer (value);
+			 self->surface = g_value_get_pointer (value);
 		  	 break;
 		  	 
 		default:
@@ -207,7 +207,7 @@ CpPlot* cp_plot_new()
 void cp_plot_render (CpPlot* self)
 {
 	g_signal_emit(self, plot_signals[PRE_RENDER_SIGNAL], 0);
-	CP_PLOT_GET_CLASS(self)->render(self);
+	CP_PLOT_GET_CLASS(self)->render_all(self);
 	g_signal_emit(self, plot_signals[POS_RENDER_SIGNAL], 0);
 }
 
@@ -215,7 +215,7 @@ void cp_plot_render (CpPlot* self)
 static void cp_plot_render_background_one_color (CpPlot *self) {
     CpColor *color = (CpColor *)g_list_nth_data (self->background->colors, 0);
 
-	cairo_set_source_rgba (self->cairoContext,
+	cairo_set_source_rgba (self->cairo,
 						   color->r,
 						   color->g,
 						   color->b,
@@ -251,7 +251,7 @@ static void cp_plot_render_background_gradient (CpPlot *self) {
 /** render the plot's background */
 void cp_plot_render_background (CpPlot *self)
 {
-	int n_colors = g_list_count (self->background->color_array);
+	int n_colors = g_list_count (self->background->colors);
 
 	if (n_colors > 1 ) {
 		plot_render_gradient_background (self);

@@ -28,20 +28,21 @@ struct _CpPlot
 	int border_width;
 	
 	/* cairo handlers */
-	cairot_t *cairo;
-	surface_t *surface;
+	cairo_t *cairo;
+	cairo_surface_t *surface;
 };
 
 typedef struct _CpPlotClass CpPlotClass;
-typedef struct _CpPlotClass
+struct _CpPlotClass
 {
 	GObjectClass parent_class;
-	void (*render) (CpPlot* self);
+	void (*render_all) (CpPlot* self);
 	void (*render_background) (CpPlot *self);
 };
 
 GType cp_plot_get_type (void);
-void cp_plot_render(CpPlot* self);
+void cp_plot_render_background (CpPlot *self);
+void cp_plot_render_all(CpPlot* self);
 CpPlot* cp_plot_new();
 
 G_END_DECLS
