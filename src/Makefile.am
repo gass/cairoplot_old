@@ -17,7 +17,11 @@ lib_LTLIBRARIES = \
 
 libcairoplot_la_SOURCES = \
 	cairoplot.c  \
-	cairoplot.h
+	cairoplot.h  \
+	scatterplot.h  \
+	scatterplot.c  \
+	utils.c  \
+	utils.h
 
 bin_PROGRAMS = \
 	unit_test
@@ -34,5 +38,9 @@ unit_test_LDADD = $(GLIB_LIBS) \
 unit_test_SOURCES = \
 	cairoplot.c\
 	cairoplot.h \
-	test.c
+	test.c \
+	scatterplot.c \
+	scatterplot.h \
+	utils.c \
+	utils.h
 
