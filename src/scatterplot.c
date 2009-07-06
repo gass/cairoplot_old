@@ -42,7 +42,7 @@ Plot *scatter_plot_init(void) {
 	return p;
 }
 
-static void scatter_plot_calc_extends_max_dir(Plot *p, int direction) {
+static void scatter_plot_calc_extends_direction(Plot *p, int direction) {
 	int i;
 	ScatterPlot *st = (ScatterPlot *)p->extend;
 	cairo_text_extents_t extents;
@@ -67,12 +67,8 @@ static void scatter_plot_calc_extends_max_dir(Plot *p, int direction) {
 void scatter_plot_calc_extends (Plot *p) {
 
 	cairo_set_font_size (p->cairoContext, p->fontsize*0.8);
-	scatter_plot_calc_extends_max_dir(p, HORZ);
-	scatter_plot_calc_extends_max_dir(p, VERT);	
-}
-	
-void scatter_plot_calc_extends_direction (int direction) {
-	
+	scatter_plot_calc_extends_direction(p, HORZ);
+	scatter_plot_calc_extends_direction(p, VERT);	
 }
 
 
