@@ -60,7 +60,8 @@ static void scatter_plot_calc_extends_max_dir(Plot *p, int direction) {
 		if (extents.height > st->label_max_size[direction])
 			st->label_max_size[direction] = extents.height;	
 	}
-	p->borders[other_direction (direction)] = st->label_max_size[direction] + p->border + 20;
+	p->borders[other_direction (direction)] = 
+		st->label_max_size[direction] + p->border + 20;
 	
 }
 void scatter_plot_calc_extends (Plot *p) {
