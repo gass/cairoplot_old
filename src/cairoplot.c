@@ -76,7 +76,6 @@ Plot *plot_init() {
 	p->fontsize = 10;
 	plot_set_background_color (p, &white);
 	p->border = 3;
-	p->borders = NULL;
     p->line_color = black;
 	p->line_width = 0.5;
     p->label_color = black;
