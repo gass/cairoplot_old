@@ -242,3 +242,10 @@ void create_color_theme_aux (ColorTheme * ct, int n_colors, va_list colors)
 	}
 	va_end (colors);
 }
+
+int other_direction (int direction) {
+	if (HORZ)
+		return VERT;
+	else
+		return HORZ;
+}

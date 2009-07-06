@@ -38,18 +38,20 @@ struct _ColorTheme {
 	color *color_array;
 };
 
+
 typedef struct _Plot Plot;
 
 struct _Plot {
 	cairo_surface_t *surface;
 	int		dimensions[2];
+	int		data_size;
 	cairo_t *cairoContext;
 	void	*data[2];
 	char	*labels[2];
 	int		fontsize;
 	ColorTheme background;
-	int	border;
-	int		*borders;
+	int		border;
+	int		borders[2];
     color   line_color;
     float   line_width;
     color   label_color;
@@ -73,4 +75,5 @@ void plot_render_all (Plot *p);
 void color_theme_unset_colors (ColorTheme *ct);
 void create_color_theme (ColorTheme * ct, int n_colors, ...);
 void create_color_theme_aux (ColorTheme * ct, int n_colors, va_list colors);
+int other_direction (int direction);
 #endif
