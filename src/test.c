@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 {
 	GtkWidget *window, *draw;
 	Plot *p = plot_init();
+		
 	color	red		= {1.0,0.0,0.0,1.0},
 			lime    = {0.0,1.0,0.0,1.0};
 	plot_set_background_color_theme (p, 2,  &red, &lime);
